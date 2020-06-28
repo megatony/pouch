@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @Setter
 @Entity
 @Table(name = "PRODUCT")
-public class Product {
+public class Product extends PouchObject {
     @Column(name = "PRODUCT_NAME")
     private String productName;
 

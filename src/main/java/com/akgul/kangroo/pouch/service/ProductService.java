@@ -14,10 +14,10 @@ public class ProductService {
     private ProductController productController;
 
     public Product getProductById(Long productId) {
-        return null;
+        return productController.getProductById(productId);
     }
 
     public List<Product> getProducts() {
-        return null;
+        return productController.getProducts();
     }
 }
