@@ -16,18 +16,24 @@ public class CartItemService {
     private CartItemController cartItemController;
 
     public CartItem createCartItem(Cart cart, Product product, int purchaseCount) {
-        return null;
+        CartItem cartItem = new CartItem();
+        cartItem.setCart(cart);
+        cartItem.setQuantity(purchaseCount);
+        return cartItem;
     }
 
     public CartItem getCartItemById(Long cartItemId) {
-        return null;
+        return cartItemController.getCartItemById(cartItemId);
     }
 
     public CartItem saveCartItem(CartItem cartItem) {
-        return null;
+        return cartItemController.saveCartItem(cartItem);
     }
 
     public List<CartItem> deleteCartItems(List<CartItem> cartItems) {
-        return null;
+        for (CartItem cartItem : cartItems) {
+            cartItem.setDeleted(true);
+        }
+        return cartItemController.saveCartItems(cartItems);
     }
 }
