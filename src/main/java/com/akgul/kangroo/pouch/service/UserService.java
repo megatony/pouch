@@ -12,6 +12,6 @@ public class UserService {
     private UserController userController;
 
     public User getUserByUserName(String userName) {
-        return null;
+        return userController.getUserByUserName(userName);
     }
 }
