@@ -17,11 +17,18 @@ public class CartItem extends PouchObject {
     @Column(name = "PRICE")
     private BigDecimal price = BigDecimal.ZERO;
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL})
     private Product product;
 
     @ManyToOne
     @JoinColumn(name = "CART_ID")
     private Cart cart;
 
+    public void increaseQuantity(int increasedAmount) {
+        quantity += increasedAmount;
+    }
+
+    public void calculatePrice() {
+        price = getProduct().getPrice().multiply(BigDecimal.valueOf(quantity));
+    }
 }

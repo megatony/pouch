@@ -38,11 +38,21 @@ public class CartService {
     }
 
     public Cart saveCart(Cart cart) {
-       return cartController.saveCart(cart);
+        cart.calculateTotalAmount();
+        return cartController.saveCart(cart);
     }
 
     public Cart deleteCart(Cart cart) {
         cart.setDeleted(true);
         return cartController.saveCart(cart);
+    }
+
+    public CartItem getCartItemOfProductFromCart(Cart cart, Product product) {
+        for (CartItem cartItem : cart.getCartItems()) {
+            if (cartItem.getProduct().equals(product)) {
+                return cartItem;
+            }
+        }
+        return null;
     }
 }

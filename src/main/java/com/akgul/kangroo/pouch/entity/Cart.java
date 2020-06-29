@@ -3,6 +3,7 @@ package com.akgul.kangroo.pouch.entity;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Where;
+import org.springframework.util.ObjectUtils;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -28,4 +29,24 @@ public class Cart extends PouchObject {
 
     @Column(name = "SELECTED_DELIVERY_DATE")
     private Date selectedDeliveryDate;
+
+    public void addCartItem(CartItem cartItem) {
+        if (ObjectUtils.isEmpty(cartItems)) {
+            cartItems = new ArrayList<>();
+        }
+        this.cartItems.add(cartItem);
+    }
+
+    public BigDecimal getCartItemPrices() {
+        totalAmount = BigDecimal.ZERO;
+        for (CartItem cartItem : cartItems) {
+            cartItem.calculatePrice();
+            totalAmount = totalAmount.add(cartItem.getPrice());
+        }
+        return totalAmount;
+    }
+
+    public void calculateTotalAmount() {
+        setTotalAmount(getCartItemPrices());
+    }
 }
