@@ -22,8 +22,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.sql.Date;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,7 +63,6 @@ public class CartApiControllerTest {
 
         cart.setCartItems(cartItems);
         cart.setUser(user);
-        cart.setSelectedDeliveryDate(Date.valueOf(LocalDate.now().plusDays(1)));
         cartService.saveCart(cart);
 
         headers.setBasicAuth("admin", "admin");
@@ -99,7 +96,6 @@ public class CartApiControllerTest {
         cartItems.add(cartItem);
 
         cart.setCartItems(cartItems);
-        cart.setSelectedDeliveryDate(Date.valueOf(LocalDate.now().plusDays(1)));
 
         cartService.saveCart(cart);
 
@@ -123,7 +119,6 @@ public class CartApiControllerTest {
         cartItems.add(cartItem);
 
         cart.setCartItems(cartItems);
-        cart.setSelectedDeliveryDate(Date.valueOf(LocalDate.now().plusDays(1)));
 
         cartService.saveCart(cart);
 

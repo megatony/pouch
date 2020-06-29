@@ -20,8 +20,8 @@ public class OrderService {
     @Autowired
     private OrderController orderController;
 
-    public Order createOrder(Cart cart, User user) {
-        if (ObjectUtils.isEmpty(cart) || ObjectUtils.isEmpty(cart.getCartItems()) || ObjectUtils.isEmpty(user)) {
+    public Order createOrder(Cart cart, User user, Long deliveryDaysAfter) {
+        if (ObjectUtils.isEmpty(cart) || ObjectUtils.isEmpty(cart.getCartItems()) || ObjectUtils.isEmpty(user) || ObjectUtils.isEmpty(deliveryDaysAfter)) {
             return null;
         }
 
@@ -29,7 +29,9 @@ public class OrderService {
             return null;
         }
 
-        if (!isOrderDeliveryOnFuture(cart)) {
+        Date selectedDeliveryDate = Date.valueOf(LocalDate.now().plusDays(deliveryDaysAfter));
+
+        if (!isOrderDeliveryOnFuture(selectedDeliveryDate)) {
             return null;
         }
 
@@ -37,7 +39,7 @@ public class OrderService {
         order.setCart(cart);
         order.setTotalAmount(cart.getTotalAmount());
         order.setUser(user);
-        order.setSelectedDeliveryDate(cart.getSelectedDeliveryDate());
+        order.setSelectedDeliveryDate(selectedDeliveryDate);
 
         orderController.saveOrder(order);
         return order;
@@ -47,8 +49,8 @@ public class OrderService {
         return cart.getTotalAmount().compareTo(MINIMUM_ORDER_AMOUNT) >= 0;
     }
 
-    protected boolean isOrderDeliveryOnFuture(Cart cart) {
-        return cart.getSelectedDeliveryDate().before(Date.valueOf(LocalDate.now()));
+    protected boolean isOrderDeliveryOnFuture(Date selectedDeliveryDate) {
+        return selectedDeliveryDate.after(Date.valueOf(LocalDate.now()));
     }
 
     public Order getUserOrderById(User user, Long orderId) {

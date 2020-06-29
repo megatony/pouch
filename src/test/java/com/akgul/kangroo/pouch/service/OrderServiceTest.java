@@ -45,7 +45,7 @@ public class OrderServiceTest {
         user.setUserName("user");
 
         cart.setUser(user);
-        Assert.assertNull(orderService.createOrder(cart, user));
+        Assert.assertNull(orderService.createOrder(cart, user, 1l));
     }
 
     @Test
@@ -56,21 +56,20 @@ public class OrderServiceTest {
         user.setUserName("user");
 
         cart.setUser(user);
-        cart.setSelectedDeliveryDate(Date.valueOf(LocalDate.MIN));
 
         cart.setCartItems(Arrays.asList(new CartItem()));
 
-        Assert.assertNull(orderService.createOrder(cart, user));
+        Assert.assertNull(orderService.createOrder(cart, user, 1L));
     }
 
     @Test
     public void shouldNotCreateOrderWhenCartIsNotAvailable() {
-        Assert.assertNull(orderService.createOrder(null, new User()));
+        Assert.assertNull(orderService.createOrder(null, new User(), 1L));
     }
 
     @Test
     public void shouldNotCreateOrderWhenUserIsNotAvailable() {
-        Assert.assertNull(orderService.createOrder(new Cart(), null));
+        Assert.assertNull(orderService.createOrder(new Cart(), null, 1L));
     }
 
     @Test
@@ -79,7 +78,6 @@ public class OrderServiceTest {
 
         Cart cart = new Cart();
         cart.setTotalAmount(BigDecimal.TEN);
-        cart.setSelectedDeliveryDate(Date.valueOf(LocalDate.MAX));
         cart.setUser(user);
         cart.setCartItems(Arrays.asList(new CartItem()));
 
@@ -91,7 +89,7 @@ public class OrderServiceTest {
 
         when(orderController.saveOrder(any())).thenReturn(expectedOrder);
 
-        Order order = orderService.createOrder(cart, user);
+        Order order = orderService.createOrder(cart, user, 99L);
 
         Assert.assertEquals(order.getCart(), expectedOrder.getCart());
     }

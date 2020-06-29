@@ -27,9 +27,6 @@ public class Cart extends PouchObject {
     @Column(name = "TOTAL_AMOUNT")
     private BigDecimal totalAmount = BigDecimal.ZERO;
 
-    @Column(name = "SELECTED_DELIVERY_DATE")
-    private Date selectedDeliveryDate;
-
     public void addCartItem(CartItem cartItem) {
         if (ObjectUtils.isEmpty(cartItems)) {
             cartItems = new ArrayList<>();
